@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ECOAULA - Auditoría Eléctrica y Circuitos Básicos (CUN)</title>
+    <style>
+        :root {
+            --primary: #1b5e20;
+            --primary-light: #2e7d32;
+            --accent: #0277bd;
+            --bg: #f4f7f5;
+            --card: #ffffff;
+            --text: #263238;
+            --border: #cfd8dc;
+        }
+        * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+body {
+            margin: 0;
+            color: var(--text);
+            background-image: url("cun.jpg");
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+                header {
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: white;
+            padding: 1.5rem 2rem;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        }
+        header h1 { margin: 0; font-size: 1.8rem; }
+        header p { margin: 0.4rem 0 0; opacity: 0.9; font-size: 0.95rem; }
+        nav {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            background: #103c14;
+            padding: 0.5rem;
+            gap: 0.5rem;
+            }
+        nav button {
+            background: transparent;
+            color: white;
+            border: 1px solid rgba(255,255,255,0.25);
+            padding: 0.6rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.2s;
+        }
+        nav button:hover, nav button.active {
+            background: white;
+            color: var(--primary);
+        }
+        main { max-width: 1050px; margin: 2rem auto; padding: 0 1rem; }
+        .tab-content { display: none; background: var(--card); padding: 2rem; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.06); }
+        .tab-content.active { display: block; }
+        h2 { color: var(--primary); border-bottom: 2px solid #e8f5e9; padding-bottom: 0.5rem; margin-top: 0; }
+        .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.2rem; }
+        .formula-box {
+            background: #e8f5e9;
+            border-left: 5px solid var(--primary);
+            padding: 1rem;
+            border-radius: 6px;
+            margin-bottom: 1rem;
+        }
+        .formula-box code { font-size: 1.15rem; font-weight: bold; color: #0d3b10; }
+        .form-group { margin-bottom: 1rem; }
+        label { display: block; font-weight: 600; margin-bottom: 0.3rem; font-size: 0.9rem; }
+        input, select {
+            width: 100%;
+            padding: 0.6rem;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-size: 0.95rem;
+        }
+        .btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.4rem;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 0.5rem;
+        }
+        .btn:hover { background: var(--primary-light); }
+        .btn-secondary { background: var(--accent); }
+        .btn-danger { background: #c62828; padding: 0.35rem 0.7rem; font-size: 0.8rem; }
+        table { width: 100%; border-collapse: collapse; margin-top: 1.2rem; font-size: 0.9rem; }
+        th, td { border: 1px solid var(--border); padding: 0.7rem; text-align: left; }
+        th { background: #e8f5e9; color: var(--primary); }
+        .summary-card {
+            background: #e3f2fd;
+            border-left: 5px solid var(--accent);
+            padding: 1.2rem;
+            border-radius: 6px;
+            margin-top: 1.5rem;
+        }
+        .badge-win { background: #ffd54f; color: #3e2723; padding: 0.25rem 0.6rem; border-radius: 4px; font-weight: bold; }
+        .alert-info { background: #fff8e1; border-left: 5px solid #ffb300; padding: 1rem; border-radius: 6px; margin-top: 1rem; }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>ECOAULA - Sistema Digital de Auditoría y Ahorro Energético</h1>
+    <p>Asignatura: Circuitos Básicos | Corporación Unificada Nacional de Educación Superior (CUN) - Grupo 30102</p>
+</header>
+
+<nav>
+    <button class="active" onclick="abrirTab('tab1', this)">1. Circuitos Básicos (120V)</button>
+    <button onclick="abrirTab('tab2', this)">2. Inventario por Salón</button>
+    <button onclick="abrirTab('tab3', this)">3. Ejercicio LED vs Fluorescente</button>
+    <button onclick="abrirTab('tab4', this)">4. Validación con Pinza</button>
+    <button onclick="abrirTab('tab5', this)">5. Reto entre Salones</button>
+    <button onclick="abrirTab('tab6', this)">6. Interfaz y Datos Menores</button>
+</nav>
+
+<main>
+    <!-- MÓDULO 1: FUNDAMENTOS DE CIRCUITOS -->
+    <section id="tab1" class="tab-content active">
+        <h2>1. Fundamentos de Circuitos Básicos Aplicados a ECOAULA</h2>
+        <p>En Colombia, la tensión nominal monofásica estándar en las instalaciones educativas es de <strong>120 V (AC)</strong>. Para auditar un salón sin intervenir las redes físicas, aplicamos las leyes fundamentales de circuitos:</p>
+        
+        <div class="grid-2">
+            <div class="formula-box">
+                <strong>Ley de Watt (Potencia y Corriente)</strong><br>
+                <code>P = V × I &nbsp;→&nbsp; I = P / 120V</code>
+                <p>Permite calcular la corriente (Amperios) que demanda cada equipo a partir de su potencia nominal (Watts).</p>
+            </div>
+            <div class="formula-box">
+                <strong>Ley de Ohm (Resistencia Equivalente)</strong><br>
+                <code>V = I × R &nbsp;→&nbsp; R = V / I</code>
+                <p>Determina la oposición equivalente (Ohmios) de cada carga conectada a la red del salón.</p>
+            </div>
+            <div class="formula-box">
+                <strong>Consumo de Energía Eléctrica</strong><br>
+                <code>E (kWh) = (P × t) / 1000</code>
+                <p>Relaciona la potencia en Watts con el tiempo de uso en horas para obtener los kilovatios-hora facturados.</p>
+            </div>
+            <div class="formula-box">
+                <strong>Suma de Corrientes en Paralelo</strong><br>
+                <code>I_total = I₁ + I₂ + I₃ + ... + Iₙ</code>
+                <p>La corriente total del circuito del salón es la suma de las corrientes individuales de cada rama.</p>
+            </div>
+        </div>
+
+        <h3>¿Por qué las luminarias y tomacorrientes de un salón están conectados en PARALELO?</h3>
+        <ul>
+            <li><strong>Tensión constante (120 V):</strong> Al estar en paralelo, todas las luminarias y equipos reciben exactamente los mismos 120 V de la red para operar a su potencia nominal.</li>
+            <li><strong>Independencia operativa:</strong> Si un tubo fluorescente se daña o se apaga un computador, el circuito no se interrumpe y los demás equipos continúan funcionando normalmente.</li>
+            <li><strong>Control por zonas:</strong> Permite encender o apagar filas independientes de luces según la entrada de luz natural sin afectar los tomacorrientes.</li>
+        </ul>
+    </section>
+
+    <!-- MÓDULO 2: INVENTARIO POR SALÓN -->
+    <section id="tab2" class="tab-content">
+        <h2>2. Inventario y Cálculo Eléctrico por Salón (Conexión en Paralelo)</h2>
+        <div class="grid-2">
+            <div class="form-group">
+                <label>Nombre o Número del Salón:</label>
+                <input type="text" id="salonNombre" value="Salón 201 - Bloque A">
+            </div>
+            <div class="form-group">
+                <label>Tarifa Real del Recibo ($ COP / kWh):</label>
+                <input type="number" id="tarifaSalon" value="850">
+            </div>
+        </div>
+
+        <hr>
+        <h3>Agregar Equipo al Circuito del Salón</h3>
+        <div class="grid-2">
+            <div class="form-group">
+                <label>Equipo Eléctrico:</label>
+                <input type="text" id="eqNombre" placeholder="Ej. Tubo Fluorescente, PC Escritorio, Ventilador">
+            </div>
+            <div class="form-group">
+                <label>Cantidad de Unidades:</label>
+                <input type="number" id="eqCant" value="10" min="1">
+            </div>
+            <div class="form-group">
+                <label>Potencia Activa por Unidad (Watts):</label>
+                <input type="number" id="eqWatts" value="40" min="0">
+            </div>
+            <div class="form-group">
+                <label>Horas de Uso Activo al Día (h):</label>
+                <input type="number" id="eqHoras" value="6" min="0" max="24" step="0.5">
+            </div>
+            <div class="form-group">
+                <label>Días de Uso al Mes:</label>
+                <input type="number" id="eqDias" value="20" min="1" max="31">
+            </div>
+            <div class="form-group">
+                <label>Potencia en Reposo / Standby por Unidad (W) [0 si se desconecta]:</label>
+                <input type="number" id="eqStandby" value="0" min="0" step="0.5">
+            </div>
+        </div>
+        <button class="btn" onclick="agregarEquipo()">+ Agregar Equipo al Inventario</button>
+
+        <table id="tablaEquipos">
+            <thead>
+                <tr>
+                    <th>Equipo</th>
+                    <th>Cant.</th>
+                    <th>Potencia Total (W)</th>
+                    <th>Corriente a 120V (A)</th>
+                    <th>R eq. (Ω)</th>
+                    <th>Energía Activa (kWh)</th>
+                    <th>Energía Standby (kWh)</th>
+                    <th>Costo Mes ($ COP)</th>
+                    <th>Acción</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+
+        <div class="summary-card" id="resumenSalon">
+            <strong>Resumen Total del Salón (Circuito en Paralelo a 120 V):</strong><br>
+            Agrega equipos arriba para calcular la corriente total y el costo mensual.
+        </div>
+    </section>
+
+    <!-- MÓDULO 3: EJERCICIO RESUELTO LED VS FLUORESCENTE -->
+    <section id="tab3" class="tab-content">
+        <h2>3. Ejercicio Resuelto: Iluminación Tradicional vs. Tecnología LED</h2>
+        <p>Comparativa técnica y económica aplicando la tarifa real de la factura institucional:</p>
+        <div class="grid-2">
+            <div class="form-group">
+                <label>Cantidad de Luminarias:</label>
+                <input type="number" id="ledCant" value="10">
+            </div>
+            <div class="form-group">
+                <label>Potencia Tubo Fluorescente Tradicional (W):</label>
+                <input type="number" id="ledWTrad" value="40">
+            </div>
+            <div class="form-group">
+                <label>Potencia Tubo LED Equivalente (W):</label>
+                <input type="number" id="ledWNuevo" value="18">
+            </div>
+            <div class="form-group">
+                <label>Horas Encendidas al Día (h):</label>
+                <input type="number" id="ledHoras" value="6">
+            </div>
+            <div class="form-group">
+                <label>Días de Clase al Mes:</label>
+                <input type="number" id="ledDias" value="20">
+            </div>
+            <div class="form-group">
+                <label>Tarifa Real de Factura ($ COP / kWh):</label>
+                <input type="number" id="ledTarifa" value="850">
+            </div>
+        </div>
+        <button class="btn" onclick="calcularComparativaLED()">Calcular Comparativa y Ahorro</button>
+
+        <div id="resultadoLED" class="summary-card"></div>
+    </section>
+
+    <!-- MÓDULO 4: VALIDACIÓN CON PINZA AMPERIMÉTRICA -->
+    <section id="tab4" class="tab-content">
+        <h2>4. Validación Experimental (Pinza Amperimétrica / Vatímetro Enchufable)</h2>
+        <p>Contraste entre el valor teórico de etiqueta y la medición real no invasiva (bajo supervisión docente):</p>
+        <div class="grid-2">
+            <div class="form-group">
+                <label>Equipo Evaluado:</label>
+                <input type="text" id="valEquipo" value="Computador de Escritorio Sala Sistemas">
+            </div>
+            <div class="form-group">
+                <label>Potencia Nominal en Placa del Fabricante (W):</label>
+                <input type="number" id="valPlaca" value="180">
+            </div>
+            <div class="form-group">
+                <label>Corriente Real Medida con Pinza Amperimétrica (A):</label>
+                <input type="number" id="valCorriente" value="1.65" step="0.01">
+            </div>
+            <div class="form-group">
+                <label>Voltaje Real Medido en la Toma (V):</label>
+                <input type="number" id="valVoltaje" value="119.5" step="0.1">
+            </div>
+        </div>
+        <button class="btn" onclick="validarMedicion()">Contrastar Teórico vs. Experimental</button>
+        <div id="resultadoValidacion" class="summary-card"></div>
+    </section>
+
+    <!-- MÓDULO 5: RETO ENTRE SALONES -->
+    <section id="tab5" class="tab-content">
+        <h2>5. Evaluación y Ranking del Reto entre Salones (4 Semanas)</h2>
+        <p><strong>Indicadores de evaluación ponderados (100 puntos):</strong> Luz apagada con iluminación natural (40%), equipos desconectados al finalizar jornada (35%) y reportes en Pasaporte Energético QR (25%).</p>
+        
+        <div class="grid-2">
+            <div class="form-group">
+                <label>Nombre del Salón / Curso:</label>
+                <input type="text" id="retoSalon" placeholder="Ej. Grado 9A">
+            </div>
+            <div class="form-group">
+                <label>Horas semanales luz apagada por luz natural (Meta: 15 h):</label>
+                <input type="number" id="retoLuz" value="12" min="0" max="30">
+            </div>
+            <div class="form-group">
+                <label>Días con equipos 100% desconectados al salir (0 a 5 días):</label>
+                <input type="number" id="retoDesc" value="4" min="0" max="5">
+            </div>
+            <div class="form-group">
+                <label>Registros válidos en Pasaporte QR semanal (Meta: 5):</label>
+                <input type="number" id="retoQR" value="5" min="0" max="10">
+            </div>
+        </div>
+        <button class="btn" onclick="registrarSalonReto()">Registrar Salón en Ranking</button>
+
+        <table id="tablaReto">
+            <thead>
+                <tr>
+                    <th>Posición</th>
+                    <th>Salón</th>
+                    <th>Pts Luz Natural (40%)</th>
+                    <th>Pts Desconexión (35%)</th>
+                    <th>Pts Pasaporte QR (25%)</th>
+                    <th>Puntaje Total</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </section>
+
+    <!-- MÓDULO 6: ARQUITECTURA DE INTERFAZ Y PROTECCIÓN DE MENORES -->
+    <section id="tab6" class="tab-content">
+        <h2>6. Arquitectura de Interfaz Web y Protección de Datos de Menores</h2>
+        
+        <div class="formula-box">
+            <strong>Aclaración Técnica de Herramientas Digitales:</strong>
+            <ul>
+                <li><strong>Canva Websites:</strong> Funciona exclusivamente como interfaz visual, portal informativo y vitrina de navegación. <em>Canva no almacena ni gestiona bases de datos.</em></li>
+                <li><strong>Google Sheets:</strong> Es el motor real donde se registra el inventario de equipos, se ejecutan las fórmulas de corriente (A), consumo (kWh) y costos ($), y cuyos gráficos se incrustan en la página.</li>
+                <li><strong>Google Forms + Códigos QR:</strong> Canal de captura rápida para el Pasaporte Energético de cada salón.</li>
+            </ul>
+        </div>
+
+        <div class="alert-info">
+            <strong>Protocolo de Protección de Datos Personales (Menores de Edad - Ley 1581 de 2012):</strong>
+            <ul>
+                <li><strong>Datos que SÍ se recogen (Datos no sensibles y grupales):</strong> Identificación del salón/curso (ej. "Salón 8B"), fecha, jornada y estado de verificación (luces apagadas, ventiladores apagados, equipos desconectados).</li>
+                <li><strong>Datos que NO se recogen (Prohibidos en el formulario):</strong> Nombres completos de estudiantes, números de documento de identidad, correos electrónicos personales, números telefónicos ni fotografías de menores.</li>
+                <li><strong>Control y custodia:</strong> Las hojas de cálculo tienen permisos de edición restringidos exclusivamente al docente responsable y al equipo auditor. En la web pública solo se visualizan resultados estadísticos consolidados por salón.</li>
+            </ul>
+        </div>
+    </section>
+</main>
+
+<script>
+    const VOLTAJE_COLOMBIA = 120.0;
+    let inventario = [];
+    let rankingSalones = [];
+
+    function abrirTab(tabId, btn) {
+        document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+        document.getElementById(tabId).classList.add('active');
+        btn.classList.add('active');
+    }
+
+    // MÓDULO 2: INVENTARIO
+    function agregarEquipo() {
+        const nombre = document.getElementById('eqNombre').value || 'Equipo sin nombre';
+        const cant = parseInt(document.getElementById('eqCant').value) || 0;
+        const watts = parseFloat(document.getElementById('eqWatts').value) || 0;
+        const horas = parseFloat(document.getElementById('eqHoras').value) || 0;
+        const dias = parseInt(document.getElementById('eqDias').value) || 0;
+        const standbyW = parseFloat(document.getElementById('eqStandby').value) || 0;
+        const tarifa = parseFloat(document.getElementById('tarifaSalon').value) || 0;
+
+        const pTotal = cant * watts;
+        const corriente = pTotal / VOLTAJE_COLOMBIA;
+        const resistencia = corriente > 0 ? (VOLTAJE_COLOMBIA / corriente) : 0;
+        const eActiva = (pTotal * horas * dias) / 1000;
+        const horasStandby = standbyW > 0 ? (24 - horas) : 0;
+        const eStandby = (cant * standbyW * horasStandby * dias) / 1000;
+        const eTotal = eActiva + eStandby;
+        const costo = eTotal * tarifa;
+
+        inventario.push({ nombre, cant, pTotal, corriente, resistencia, eActiva, eStandby, eTotal, costo });
+        renderInventario();
+    }
+
+    function eliminarEquipo(index) {
+        inventario.splice(index, 1);
+        renderInventario();
+    }
+
+    function renderInventario() {
+        const tbody = document.querySelector('#tablaEquipos tbody');
+        tbody.innerHTML = '';
+        let sumW = 0, sumA = 0, sumKwh = 0, sumCosto = 0;
+
+        inventario.forEach((eq, idx) => {
+            sumW += eq.pTotal;
+            sumA += eq.corriente;
+            sumKwh += eq.eTotal;
+            sumCosto += eq.costo;
+
+            tbody.innerHTML += `
+                <tr>
+                    <td>${eq.nombre}</td>
+                    <td>${eq.cant}</td>
+                    <td>${eq.pTotal.toFixed(1)} W</td>
+                    <td>${eq.corriente.toFixed(2)} A</td>
+                    <td>${eq.resistencia.toFixed(1)} Ω</td>
+                    <td>${eq.eActiva.toFixed(2)} kWh</td>
+                    <td>${eq.eStandby.toFixed(2)} kWh</td>
+                    <td>$${Math.round(eq.costo).toLocaleString('es-CO')}</td>
+                    <td><button class="btn btn-danger" onclick="eliminarEquipo(${idx})">X</button></td>
+                </tr>
+            `;
+        });
+
+        const salon = document.getElementById('salonNombre').value;
+        document.getElementById('resumenSalon').innerHTML = `
+            <strong>TOTAL ${salon.toUpperCase()} (Ramas en Paralelo a 120 V):</strong><br><br>
+            • <strong>Potencia Total Simultánea:</strong> ${sumW.toFixed(1)} W<br>
+            • <strong>Corriente Total del Salón (I_total):</strong> ${sumA.toFixed(2)} A <em>(Determina la capacidad del breaker de protección)</em><br>
+            • <strong>Consumo Mensual Estimado (Activo + Standby):</strong> ${sumKwh.toFixed(2)} kWh/mes<br>
+            • <strong>Costo Mensual Estimado:</strong> $${Math.round(sumCosto).toLocaleString('es-CO')} COP
+        `;
+    }
+
+    // MÓDULO 3: COMPARATIVA LED
+    function calcularComparativaLED() {
+        const cant = parseInt(document.getElementById('ledCant').value);
+        const wTrad = parseFloat(document.getElementById('ledWTrad').value);
+        const wLed = parseFloat(document.getElementById('ledWNuevo').value);
+        const horas = parseFloat(document.getElementById('ledHoras').value);
+        const dias = parseInt(document.getElementById('ledDias').value);
+        const tarifa = parseFloat(document.getElementById('ledTarifa').value);
+
+        const pTrad = cant * wTrad;
+        const iTrad = pTrad / VOLTAJE_COLOMBIA;
+        const eTrad = (pTrad * horas * dias) / 1000;
+        const cTrad = eTrad * tarifa;
+
+        const pLed = cant * wLed;
+        const iLed = pLed / VOLTAJE_COLOMBIA;
+        const eLed = (pLed * horas * dias) / 1000;
+        const cLed = eLed * tarifa;
+
+        const ahorroKwh = eTrad - eLed;
+        const ahorroDinero = cTrad - cLed;
+        const ahorroPorc = (ahorroKwh / eTrad) * 100;
+
+        document.getElementById('resultadoLED').innerHTML = `
+            <strong>1. Iluminación Fluorescente Actual (${cant} tubos × ${wTrad} W):</strong><br>
+            Potencia: ${pTrad} W | Corriente a 120V: <strong>${iTrad.toFixed(2)} A</strong> | Consumo: <strong>${eTrad.toFixed(2)} kWh/mes</strong> | Costo: <strong>$${Math.round(cTrad).toLocaleString('es-CO')} COP/mes</strong><br><br>
+            <strong>2. Propuesta Iluminación LED (${cant} tubos × ${wLed} W):</strong><br>
+            Potencia: ${pLed} W | Corriente a 120V: <strong>${iLed.toFixed(2)} A</strong> | Consumo: <strong>${eLed.toFixed(2)} kWh/mes</strong> | Costo: <strong>$${Math.round(cLed).toLocaleString('es-CO')} COP/mes</strong><br><br>
+            <strong>3. Ahorro Estimado con el Cambio a LED:</strong><br>
+            • Reducción de corriente en el circuito: <strong>-${(iTrad - iLed).toFixed(2)} A</strong><br>
+            • Ahorro energético: <strong>${ahorroKwh.toFixed(2)} kWh/mes (${ahorroPorc.toFixed(1)}%)</strong><br>
+            • Ahorro económico: <strong>$${Math.round(ahorroDinero).toLocaleString('es-CO')} COP/mes</strong> ($${Math.round(ahorroDinero * 10).toLocaleString('es-CO')} COP en año escolar de 10 meses)
+        `;
+    }
+
+    // MÓDULO 4: VALIDACIÓN PINZA
+    function validarMedicion() {
+        const eq = document.getElementById('valEquipo').value;
+        const pPlaca = parseFloat(document.getElementById('valPlaca').value);
+        const iMedida = parseFloat(document.getElementById('valCorriente').value);
+        const vMedido = parseFloat(document.getElementById('valVoltaje').value);
+
+        const pReal = vMedido * iMedida;
+        const dif = pReal - pPlaca;
+        const error = (Math.abs(dif) / pPlaca) * 100;
+
+        document.getElementById('resultadoValidacion').innerHTML = `
+            <strong>Resultado del Contraste para: ${eq}</strong><br><br>
+            • Potencia Nominal (Etiqueta): <strong>${pPlaca.toFixed(1)} W</strong> (Corriente teórica a 120V: ${(pPlaca/120).toFixed(2)} A)<br>
+            • Potencia Real Medida (P = V × I): <strong>${pReal.toFixed(1)} W</strong> (${vMedido} V × ${iMedida} A)<br>
+            • Desviación detectada: <strong>${dif >= 0 ? '+' : ''}${dif.toFixed(1)} W (${error.toFixed(1)}%)</strong><br>
+            • Conclusión técnica: ${dif > 0 ? 'El consumo real supera la potencia nominal (posible desgaste de componentes o carga adicional).' : 'El equipo opera dentro de sus parámetros nominales.'}
+        `;
+    }
+
+    // MÓDULO 5: RETO ENTRE SALONES
+    function registrarSalonReto() {
+        const salon = document.getElementById('retoSalon').value || 'Salón sin nombre';
+        const luz = parseFloat(document.getElementById('retoLuz').value) || 0;
+        const desc = parseFloat(document.getElementById('retoDesc').value) || 0;
+        const qr = parseFloat(document.getElementById('retoQR').value) || 0;
+
+        const ptsLuz = Math.min((luz / 15) * 40, 40);
+        const ptsDesc = Math.min((desc / 5) * 35, 35);
+        const ptsQr = Math.min((qr / 5) * 25, 25);
+        const total = ptsLuz + ptsDesc + ptsQr;
+
+        rankingSalones.push({ salon, ptsLuz, ptsDesc, ptsQr, total });
+        rankingSalones.sort((a, b) => b.total - a.total);
+
+        const tbody = document.querySelector('#tablaReto tbody');
+        tbody.innerHTML = '';
+        rankingSalones.forEach((r, i) => {
+            const pos = i === 0 ? '<span class="badge-win">🏆 #1 GANADOR</span>' : `#${i + 1}`;
+            tbody.innerHTML += `
+                <tr>
+                    <td>${pos}</td>
+                    <td><strong>${r.salon}</strong></td>
+                    <td>${r.ptsLuz.toFixed(1)} / 40</td>
+                    <td>${r.ptsDesc.toFixed(1)} / 35</td>
+                    <td>${r.ptsQr.toFixed(1)} / 25</td>
+                    <td><strong>${r.total.toFixed(1)} / 100 pts</strong></td>
+                </tr>
+            `;
+        });
+    }
+
+    // Inicializar cálculos por defecto al cargar
+    calcularComparativaLED();
+    validarMedicion();
+</script>
+
+</body>
+</html>
